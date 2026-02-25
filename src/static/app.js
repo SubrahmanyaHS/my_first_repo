@@ -20,11 +20,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
+        // build a participants section
+        let participantsHtml;
+        if (details.participants.length === 0) {
+          participantsHtml = `<p class="participants-empty">No participants yet</p>`;
+        } else {
+          const items = details.participants
+            .map((email) => `<li>${email}</li>`)  // simple escape not needed for demo
+            .join('');
+          participantsHtml = `<div class="participants">
+              <strong>Participants:</strong>
+              <ul class="participants-list">
+                ${items}
+              </ul>
+            </div>`;
+        }
+
         activityCard.innerHTML = `
           <h4>${name}</h4>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          ${participantsHtml}
         `;
 
         activitiesList.appendChild(activityCard);
